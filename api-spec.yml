@@ -1,0 +1,144 @@
+# this is spec of Mozy Account API for DPSearch
+swagger: '2.0'
+info:
+  title: Mozy Account API for DPSearch
+  description: Mozy Account API for DPSearch
+  version: "1.0.0"
+# the domain of the service
+host: api.xxx.com
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all path
+basePath: /
+produces:
+  - application/json
+paths:
+  /partners:
+    get:
+      summary: Product Types
+      description: |
+        The partners endpoint List partners under specified parent_partner_id.
+        If parent_partner_id unspecified, list all top level partners.
+        The response includes partner id, display name
+        and other details about each partner, and lists the products in the
+        proper display order.
+      parameters:
+        - name: parent_partner_id
+          in: query
+          description: parent partner id, optional
+          required: false
+          type: integer
+          format: int64
+      tags:
+        - Partner
+      responses:
+        200:
+          description: An array of partners
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Partner'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /partners/{partner_id}/users:
+    get:
+      summary: List users
+      description: |
+        The Partner user endpoint returns all users under specified leaf partner.
+      parameters:
+        - name: partner_id
+          in: path
+          description: partner id
+          required: true
+          type: integer
+          format: int64
+      tags:
+        - Partner
+        - User
+      responses:
+        200:
+          description: An array of users by partner
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /partners/{partner_id}/users/{user_id}/machines:
+    get:
+      summary: List machines of a user
+      description: |
+        The Partner user macihne endpoint returns all machines under specified user.
+      parameters:
+        - name: partner_id
+          in: path
+          description: partner id
+          required: true
+          type: integer
+          format: int64
+        - name: user_id
+          in: path
+          description: user id
+          required: true
+          type: integer
+          format: int64
+      tags:
+        - Partner
+        - User
+        - Machine
+      responses:
+        200:
+          description: An array of machines by user
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Machine'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Partner:
+    properties:
+      partner_id:
+        type: integer
+        description: partner id
+      partner_name:
+        type: string
+        description: partner name
+      is_leaf:
+        type: boolean
+        description: whether it's a leaf partner
+  User:
+    properties:
+      user_id:
+        type: integer
+        description: user id
+      user_name:
+        type: string
+        description: user name
+  Machine:
+    properties:
+      machine_id:
+        type: integer
+        description: machine id
+      manifest_id:
+        type: string
+        description: manifest id
+      machine_name:
+        type: string
+        description: machine name
+  Error:
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
