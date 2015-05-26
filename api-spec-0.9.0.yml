@@ -1,0 +1,67 @@
+# this is spec of Mozy Account API for DPSearch
+swagger: '2.0'
+info:
+  title: Mozy Account API for DPSearch
+  description: Mozy Account API for DPSearch
+  version: "0.9.0"
+# the domain of the service
+host: api.xxx.com
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all path
+basePath: /
+produces:
+  - application/json
+paths:
+  /machines:
+    get:
+      summary: List all machines
+      description: |
+        The endpoint returns all machines.
+      responses:
+        200:
+          description: An array of machines
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Machine'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  Machine:
+    properties:
+      partner_id:
+        type: integer
+        description: partner id
+      partner_name:
+        type: string
+        description: partner name
+      user_id:
+        type: integer
+        description: user id
+      user_name:
+        type: string
+        description: user name
+      machine_id:
+        type: integer
+        description: machine id
+      manifest_id:
+        type: string
+        description: manifest id
+      machine_name:
+        type: string
+        description: machine name
+
+  Error:
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
