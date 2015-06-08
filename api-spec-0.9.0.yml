@@ -31,6 +31,17 @@ paths:
           schema:
             $ref: '#/definitions/Error'
 
+  /login:
+    get:
+      summary: test if server is ok
+      responses:
+        200:
+          description: ok
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
 definitions:
   Machine:
     properties:
@@ -65,3 +76,4 @@ definitions:
         type: string
       fields:
         type: string
+
